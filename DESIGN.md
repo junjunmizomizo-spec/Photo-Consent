@@ -41,3 +41,20 @@ Motion should feel calm, short, and supportive. Respect `prefers-reduced-motion`
 Gentle, direct, non-judgmental, and easy to understand.
 
 The message “どの選択肢を選んでも大丈夫です。” is a core product principle.
+
+
+## Version 2.1 UI refresh
+
+### UI logo
+The application interface uses a camera outline, circular lens, and leaf sprig. It does not use a heart. The stroke uses a soft teal-to-leaf gradient.
+
+### Consent-choice colors
+The five choices use a gradual spectrum without purple:
+
+1. Green
+2. Yellow
+3. Orange
+4. Light red
+5. Red
+
+The colors support scanning only. They must not imply that one participant choice is morally better than another.

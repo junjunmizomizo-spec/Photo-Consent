@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 210" preserveAspectRatio="none">
+<defs>
+  <linearGradient id="hillA" x1="0" x2="1">
+    <stop offset="0" stop-color="#EAF4E4"/>
+    <stop offset="1" stop-color="#D9EDCF"/>
+  </linearGradient>
+  <linearGradient id="hillB" x1="0" x2="1">
+    <stop offset="0" stop-color="#D5EBCB"/>
+    <stop offset="1" stop-color="#EFF7E9"/>
+  </linearGradient>
+</defs>
+<path d="M0 150C120 85 230 185 360 135S600 85 800 150V210H0Z" fill="url(#hillA)"/>
+<path d="M0 175C145 120 245 205 410 158S650 125 800 165V210H0Z" fill="url(#hillB)" opacity=".88"/>
+<g fill="none" stroke="#91BD82" stroke-width="6" stroke-linecap="round">
+  <path d="M52 190c3-45 4-80 1-123M53 110l-26-22M54 137l28-24M52 160l-24-13"/>
+  <path d="M742 194c-4-49-6-87-3-132M739 109l28-25M739 139l-31-22M742 165l26-15"/>
+</g>
+<g fill="#A8CC91">
+  <ellipse cx="26" cy="85" rx="12" ry="22" transform="rotate(-36 26 85)"/>
+  <ellipse cx="80" cy="110" rx="12" ry="23" transform="rotate(40 80 110)"/>
+  <ellipse cx="28" cy="145" rx="11" ry="20" transform="rotate(-50 28 145)"/>
+  <ellipse cx="770" cy="82" rx="12" ry="23" transform="rotate(35 770 82)"/>
+  <ellipse cx="707" cy="113" rx="12" ry="23" transform="rotate(-42 707 113)"/>
+  <ellipse cx="769" cy="151" rx="11" ry="21" transform="rotate(48 769 151)"/>
+</g>
+</svg>

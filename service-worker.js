@@ -1,4 +1,4 @@
-const CACHE_NAME="photo-consent-v2-0-bloom-sprint2-0-2-css-refactor";
+const CACHE_NAME="photo-consent-v2-1-ui-refresh-sprint2-1-1";
 const ASSETS=[
   "./",
   "./index.html",
@@ -10,6 +10,8 @@ const ASSETS=[
   "./icon-192.png",
   "./icon-512.png",
   "./apple-touch-icon.png",
+  "./assets/brand/ui-logo.svg",
+  "./assets/brand/welcome-landscape.svg",
   "./assets/brand/icon-mark.svg",
   "./assets/brand/logo-readme.png",
   "./assets/brand/logo.png"
