@@ -1,27 +1,42 @@
-# Photo Consent Version 1.5.1 — Content Fade
+<p align="center">
+  <img src="./assets/brand/logo-readme.png" alt="Photo Consent" width="640">
+</p>
 
-「Harmony」は制作者2人だけで共有するプロジェクト名です。公開画面には表示しません。
+# Photo Consent
 
-## Version 1.5.1 の変更
+写真撮影について、一人ひとりの気持ちを大切に確認するためのWebアプリです。
 
-- 最初の画面にあった大きな「安心してお選びください」を削除
-- 「あなたの気持ちを教えてください。」を控えめな案内文として追加
-- 最初の画面をすっきり整理
-- カード全体ではなく、中の文章やボタンだけを順番に表示
-- iPhone Safariで安定しやすい短いコンテンツフェードを採用
-- イベント管理、CSV、バックアップ、トースト機能を維持
+## 特長
+- iPhone向けの参加者画面
+- 5段階の撮影希望
+- イベントごとの回答管理
+- 回答の検索・編集・削除
+- CSV書き出し
+- JSONバックアップ・復元
+- PWA・オフライン対応
+- GitHub Pages対応
 
-## 最初の画面の構成
+## Version 2.0 “Bloom”
+Sprint 2.0-1では、正式ロゴ、PWAアイコン、Apple Touch Icon、favicon、ブランドカラー、タイポグラフィ、ボタン、カード、`DESIGN.md`を整備しました。
 
-1. 写真撮影について
-2. あなたの気持ちを教えてください。
-3. 撮影についての説明
-4. どの選択肢を選んでも大丈夫です。
-5. 「今日は撮られたくない」という気持ちも大切にしています。
-6. はじめる
+## 管理画面
+画面右上の歯車を約2秒長押しします。初期パスコードは `1234` です。
 
-## GitHub Pagesへの更新
+## GitHub Pagesへの公開
+ZIPを解凍し、中のファイルとフォルダをGitHubリポジトリのルートへアップロードします。
 
-ZIPを解凍し、中の8ファイルをGitHub上の既存ファイルへ上書きしてください。
+## ブランド資料
+デザインルールは [`DESIGN.md`](./DESIGN.md) にまとめています。
 
-iPhoneで古い表示が残る場合は、Safariを再読み込みしてください。
+## ロードマップ
+- Version 1.0 — 基本機能
+- Version 1.1 — イベント管理
+- Version 1.2 — バックアップ・復元
+- Version 1.3 — UI改善
+- Version 1.4 — iPhone最適化
+- Version 1.5 — 安定したモーション
+- Version 2.0 “Bloom” — ブランド統一と公開品質
+
+---
+
+<p align="center"><em>Crafted with Harmony.</em></p>
