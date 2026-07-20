@@ -367,3 +367,33 @@ html.is-screen-transitioning .app-shell{
     animation:none!important;
   }
 }
+
+/* Version 1.5.1 Content Fade */
+.welcome-lead{
+  margin:6px 0 22px;
+  text-align:center;
+  font-size:1.15rem;
+  font-weight:700;
+  color:var(--text);
+}
+
+.stable-motion-card.card-enter .content-fade{
+  animation:content-fade-in 360ms ease-out both;
+}
+
+.stable-motion-card.card-enter .content-fade-0{animation-delay:20ms}
+.stable-motion-card.card-enter .content-fade-1{animation-delay:70ms}
+.stable-motion-card.card-enter .content-fade-2{animation-delay:120ms}
+.stable-motion-card.card-enter .content-fade-3{animation-delay:170ms}
+.stable-motion-card.card-enter .content-fade-4{animation-delay:220ms}
+
+@keyframes content-fade-in{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .stable-motion-card.card-enter .content-fade{
+    animation:none!important;
+  }
+}

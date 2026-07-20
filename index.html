@@ -1,17 +1,17 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#5d7f6b"><title>Photo Consent</title><link rel="manifest" href="./manifest.json"><link rel="stylesheet" href="./style.css"></head><body><main class="app-shell"><section id="participant-view" class="screen is-active participant-theme"><button id="admin-trigger" class="admin-trigger" type="button" aria-label="管理者メニュー">⚙️</button><header class="brand"><div class="brand-mark">📷</div><div><h1>Photo Consent</h1><p>写真撮影の確認</p></div></header><section id="intro-step" class="panel step is-active welcome-panel stable-motion-card" aria-labelledby="welcome-title">
   <div class="welcome-symbol" aria-hidden="true">🌿</div>
-  <p class="welcome-kicker">写真撮影について</p>
-  <h2 id="welcome-title">安心してお選びください</h2>
-  <div class="welcome-copy">
+  <p class="welcome-kicker">写真撮影について</p><p id="welcome-title" class="welcome-lead content-fade content-fade-0">あなたの気持ちを教えてください。</p>
+  
+  <div class="welcome-copy content-fade content-fade-1">
     <p>イベントの様子を記録するため、写真を撮影させていただくことがあります。</p>
     <p>撮影の際は、皆さんのご希望を大切にしたいと思っています。</p>
   </div>
-  <div class="welcome-message">
+  <div class="welcome-message content-fade content-fade-2">
     <p class="emphasis">どの選択肢を選んでも大丈夫です。</p>
     <p class="respect-message">「今日は撮られたくない」というお気持ちも大切にしています。</p>
   </div>
-  <p class="note welcome-note">ご希望はいつでも変更できます。どうぞ安心してお選びください。</p>
-  <button class="primary-button welcome-button" data-action="start">はじめる</button>
+  <p class="note welcome-note content-fade content-fade-3">ご希望はいつでも変更できます。</p>
+  <button class="primary-button welcome-button content-fade content-fade-4" data-action="start">はじめる</button>
 </section><section id="name-step" class="panel step stable-motion-card"><h2>お名前を入力してください</h2><label class="field-label" for="participant-name">お名前</label><input id="participant-name" class="text-input" type="text" placeholder="例）山田 花子" maxlength="40"><p class="helper">お名前は確認画面で修正できます。</p><div class="button-row"><button class="secondary-button" data-action="back-intro">戻る</button><button class="primary-button" data-action="to-options">次へ</button></div></section><section id="option-step" class="panel step stable-motion-card"><h2>撮影について教えてください</h2><div id="option-list" class="option-list"></div><div class="button-row"><button class="secondary-button" data-action="back-name">戻る</button><button class="primary-button" data-action="to-confirm">確認する</button></div></section><section id="confirm-step" class="panel step stable-motion-card"><h2>内容をご確認ください</h2><dl class="summary-list"><div><dt>お名前</dt><dd id="confirm-name"></dd></div><div><dt>撮影のご希望</dt><dd><span id="confirm-option" class="status-badge"></span></dd></div></dl><p class="helper">内容に間違いがなければ「送信する」を押してください。</p><div class="button-row"><button class="secondary-button" data-action="edit">修正する</button><button class="primary-button" data-action="submit">送信する</button></div></section><section id="complete-step" class="panel step complete-panel stable-motion-card"><div class="complete-mark">✓</div><h2>ご協力ありがとうございました</h2><p>ご希望に合わせて撮影いたします。</p><p>次の方へスマートフォンをお渡しください。</p><p class="helper">3秒後に最初の画面へ戻ります。</p></section></section><section id="admin-login-view" class="screen admin-theme"><section class="panel"><h2>管理者ログイン</h2><label class="field-label" for="admin-passcode">パスコード</label><input id="admin-passcode" class="text-input" type="password" inputmode="numeric" maxlength="12" placeholder="パスコードを入力"><p id="login-error" class="error-message"></p><div class="button-row"><button class="secondary-button" data-action="admin-cancel">戻る</button><button class="primary-button" data-action="admin-login">ログイン</button></div></section></section><section id="admin-view" class="screen admin-theme"><header class="admin-header"><div><h1>管理画面</h1><p>回答とイベントを管理します</p></div><button class="small-button" data-action="admin-logout">閉じる</button></header>
 <section class="admin-summary-card">
   <div>
