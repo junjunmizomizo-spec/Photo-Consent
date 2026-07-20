@@ -16,7 +16,7 @@ let rows=[
 let c='\uFEFF'+rows.map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(',')).join('\r\n'),
 u=URL.createObjectURL(new Blob([c],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');
 a.href=u;a.download=`${date}_${e.name.replace(/[\\/:*?"<>|]/g,'_')}.csv`;
-document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);return true
+document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);showToast('CSVを書き出しました。','✓');return true
 }
 function setFinishDialog(title,message,buttons){
 $('#finish-dialog-title').textContent=title;
@@ -80,7 +80,7 @@ let d=L(),today=new Date(),date=`${today.getFullYear()}-${String(today.getMonth(
 let payload={app:'Photo Consent',version:'1.2',exportedAt:new Date().toISOString(),data:d};
 let u=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:'application/json'})),a=document.createElement('a');
 a.href=u;a.download=`${date}_PhotoConsent_backup.json`;
-document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u)
+document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);showToast('バックアップを保存しました。','💾')
 }
 function restoreData(file){
 if(!file)return;
@@ -92,8 +92,8 @@ if(!d||!Array.isArray(d.events)||!d.events.length||!d.activeEventId)throw new Er
 if(!d.events.every(e=>e&&typeof e.id==='string'&&typeof e.name==='string'&&Array.isArray(e.responses)))throw new Error();
 if(!confirm('現在のデータをバックアップ内容で上書きします。\nこの操作は元に戻せません。続けますか？'))return;
 W(d);$('#search-input').value='';$('#filter-select').value='all';renderAdmin();
-alert(`復元しました。\nイベント数：${d.events.length}件`)
-}catch{alert('このファイルはPhoto Consentの有効なバックアップではありません。')}
+showToast(`バックアップを復元しました（${d.events.length}イベント）。`,'📂')
+}catch{showToast('有効なバックアップではありません。','!','error')}
 finally{$('#restore-input').value=''}
 };
 r.readAsText(file,'utf-8')
@@ -102,7 +102,21 @@ function reopenEvent(){
 let d=L(),e=A(d);
 if(!e.endedAt)return;
 if(!confirm(`「${e.name}」を再開しますか？`))return;
-delete e.endedAt;W(d);renderAdmin()
+delete e.endedAt;W(d);renderAdmin();showToast('イベントを再開しました。','✓')
+}
+
+let toastTimer=null;
+function showToast(message,icon='✓',kind='success'){
+  const toast=$('#toast');
+  const toastIcon=$('#toast-icon');
+  const toastMessage=$('#toast-message');
+  if(!toast||!toastIcon||!toastMessage)return;
+  clearTimeout(toastTimer);
+  toastIcon.textContent=icon;
+  toastMessage.textContent=message;
+  toast.className=`toast${kind==='error'?' is-error':kind==='info'?' is-info':''}`;
+  requestAnimationFrame(()=>toast.classList.add('is-visible'));
+  toastTimer=setTimeout(()=>toast.classList.remove('is-visible'),2200);
 }
 document.onclick=e=>{let a=e.target.closest('[data-action]')?.dataset.action;if(!a)return;({start:()=>step('#name-step'),'back-intro':()=>step('#intro-step'),'to-options':toOptions,'back-name':()=>step('#name-step'),'to-confirm':toConfirm,edit:()=>step('#name-step'),submit,'admin-cancel':reset,'admin-login':login,'admin-logout':reset,'new-event':()=>$('#event-form').classList.remove('is-hidden'),'cancel-event':()=>$('#event-form').classList.add('is-hidden'),'save-event':newEvent,'finish-event':finishEvent,'delete-event':deleteEvent,'reopen-event':reopenEvent,'backup-data':backupData,'export-csv':csv}[a]||(()=>{}))()};let holdTimer=null;
 const adminTrigger=$('#admin-trigger');
