@@ -5,6 +5,14 @@
 # Photo Consent
 
 
+## Version 2.1.1 “Welcome Polish”
+
+- Welcomeロゴを、崩れにくいシンプルなカメラ＋葉っぱロゴへ調整
+- 「写真撮影の前に」の見出しをやわらかいグラデーション表現へ変更
+- Welcome画面の重複文言を整理
+
+
+
 ## Version 2.1 “UI Refresh” — Sprint 2.1-1
 
 Welcome画面と選択画面を、確定したUIデザインへ更新しました。

@@ -1037,3 +1037,56 @@ dialog::backdrop{background:rgba(19,35,27,.42)}
     font-size:.9rem;
   }
 }
+
+
+/* =========================================================
+   Version 2.1.1 Welcome polish
+========================================================= */
+
+.welcome-logo{
+  width:136px;
+  max-width:44vw;
+  height:auto;
+  display:block;
+  margin-inline:auto;
+}
+
+.welcome-introduction{
+  margin-top:30px;
+}
+
+.welcome-introduction h2{
+  margin:0 0 14px;
+  font-size:clamp(1.12rem,4.8vw,1.34rem);
+  font-weight:700;
+  letter-spacing:.08em;
+  background:linear-gradient(90deg,var(--ui-teal),var(--ui-lime));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.welcome-introduction p{
+  margin:0 0 14px;
+  line-height:1.85;
+}
+
+.privacy-note{
+  margin-top:22px;
+}
+
+@media(max-width:420px){
+  .welcome-logo{
+    width:118px;
+    max-width:42vw;
+  }
+
+  .welcome-introduction{
+    margin-top:24px;
+  }
+
+  .welcome-introduction h2{
+    font-size:1.06rem;
+    margin-bottom:12px;
+  }
+}

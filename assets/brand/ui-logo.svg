@@ -1,19 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-labelledby="title">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 220" role="img" aria-labelledby="title">
 <title id="title">Photo Consent</title>
 <defs>
-  <linearGradient id="brandGradient" x1="28" y1="142" x2="207" y2="35" gradientUnits="userSpaceOnUse">
+  <linearGradient id="pcg" x1="52" y1="174" x2="268" y2="48" gradientUnits="userSpaceOnUse">
     <stop offset="0" stop-color="#4C9B99"/>
-    <stop offset=".55" stop-color="#75B989"/>
+    <stop offset="0.55" stop-color="#78B989"/>
     <stop offset="1" stop-color="#A8C979"/>
   </linearGradient>
 </defs>
-<g fill="none" stroke="url(#brandGradient)" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M48 63h43l14-22h50l14 22h24c17 0 31 14 31 31v45c0 17-14 31-31 31H48c-17 0-31-14-31-31V94c0-17 14-31 31-31Z" stroke-width="10"/>
-  <circle cx="119" cy="116" r="34" stroke-width="9"/>
-  <circle cx="188" cy="83" r="6" fill="#9CC878" stroke="none"/>
-  <path d="M166 161c22-3 39-13 51-30" stroke-width="7"/>
-  <path d="M184 148c-2-16 4-29 16-38 7 16 5 31-7 42" stroke-width="7"/>
-  <path d="M199 136c14-8 29-8 41-2-9 14-23 19-40 14" stroke-width="7"/>
-  <path d="M172 158c-11-10-15-23-12-37 15 5 24 17 24 32" stroke-width="7"/>
+
+<g fill="none" stroke="url(#pcg)" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M60 78h52l18-24h60l18 24h26c19 0 34 15 34 34v42c0 19-15 34-34 34H60c-19 0-34-15-34-34v-42c0-19 15-34 34-34Z" stroke-width="10"/>
+  <circle cx="160" cy="133" r="38" stroke-width="9"/>
+  <circle cx="238" cy="100" r="7" fill="#95C477" stroke="none"/>
 </g>
+
+<g fill="url(#pcg)">
+  <ellipse cx="246" cy="157" rx="10" ry="23" transform="rotate(18 246 157)"/>
+  <ellipse cx="264" cy="146" rx="10" ry="23" transform="rotate(-22 264 146)"/>
+  <ellipse cx="277" cy="163" rx="10" ry="21" transform="rotate(48 277 163)"/>
+</g>
+
+<path d="M228 177c17-1 35-11 48-28" fill="none" stroke="url(#pcg)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
