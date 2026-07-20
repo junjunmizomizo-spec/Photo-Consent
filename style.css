@@ -680,3 +680,12 @@ dialog::backdrop{background:rgba(19,35,27,.42)}
     transition-duration:.01ms!important;
   }
 }
+
+
+/* Sprint 2.0-3 Icon System */
+.brand-mark img,
+.welcome-symbol img{
+  width:68%;
+  height:68%;
+  object-fit:contain;
+}
