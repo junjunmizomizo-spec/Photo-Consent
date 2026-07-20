@@ -302,3 +302,9 @@ html.is-screen-transitioning .app-shell{
     -webkit-transform:none!important;
   }
 }
+
+/* Version 1.4.1: softer iPhone fade ending */
+.screen.is-active,
+.step.is-active{
+  transform-origin:center center;
+}

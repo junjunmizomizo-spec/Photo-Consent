@@ -25,19 +25,25 @@ async function animateSwap(selector,id,key,shouldScroll=false){
       const leave=current.animate(
         [
           {opacity:1,transform:'translate3d(0,0,0) scale(1)'},
-          {opacity:0,transform:'translate3d(-8px,0,0) scale(.995)'}
+          {opacity:.55,transform:'translate3d(0,-2px,0) scale(.998)',offset:.58},
+          {opacity:0,transform:'translate3d(0,-5px,0) scale(.995)'}
         ],
         {
-          duration:150,
-          easing:'cubic-bezier(.4,0,1,1)',
+          duration:190,
+          easing:'linear',
           fill:'forwards'
         }
       );
-      await Promise.race([leave.finished.catch(()=>{}),wait(220)]);
+      await Promise.race([leave.finished.catch(()=>{}),wait(250)]);
       leave.cancel();
-      current.classList.remove('is-active')
+      current.classList.remove('is-active');
+      current.style.opacity='';
+      current.style.transform=''
     }
 
+    // Remove the previous final inline state before starting a new entrance.
+    target.style.opacity='';
+    target.style.transform='';
     target.classList.add('is-active');
     if(shouldScroll)scrollTo({top:0,behavior:'auto'});
 
@@ -47,16 +53,23 @@ async function animateSwap(selector,id,key,shouldScroll=false){
 
     const enter=target.animate(
       [
-        {opacity:0,transform:'translate3d(12px,0,0) scale(.992)'},
-        {opacity:1,transform:'translate3d(0,0,0) scale(1)'}
+        {opacity:0,transform:'translate3d(0,14px,0) scale(.988)',offset:0},
+        {opacity:.42,transform:'translate3d(0,7px,0) scale(.994)',offset:.48},
+        {opacity:.78,transform:'translate3d(0,2px,0) scale(.998)',offset:.78},
+        {opacity:1,transform:'translate3d(0,0,0) scale(1)',offset:1}
       ],
       {
-        duration:300,
-        easing:'cubic-bezier(.22,.8,.25,1)',
-        fill:'both'
+        duration:480,
+        easing:'linear',
+        fill:'forwards'
       }
     );
-    await Promise.race([enter.finished.catch(()=>{}),wait(380)]);
+    await Promise.race([enter.finished.catch(()=>{}),wait(560)]);
+
+    // Apply the final visual state before cancelling the animation.
+    // This avoids the small "snap" Safari can show at the very end.
+    target.style.opacity='1';
+    target.style.transform='translate3d(0,0,0) scale(1)';
     enter.cancel()
   }finally{
     transitionState[key]=false;
