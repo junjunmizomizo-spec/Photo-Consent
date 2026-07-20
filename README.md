@@ -28,6 +28,16 @@
 - `favicon.svg`
 - `favicon.ico`
 
+
+## Sprint 2.0-2 — CSS Refactoring
+
+- Version 1.xから積み重なっていた重複CSSを整理
+- ロゴ表示を `object-fit: contain` に統一
+- アプリ内のロゴ参照先をルートの `icon-192.png` に統一
+- 参加者画面・管理画面・トースト・ダイアログのスタイルを再整理
+- PCとiPhoneで同じレイアウトになるよう調整
+- 機能や保存データの仕様は変更なし
+
 ## Version 2.0 “Bloom”
 Sprint 2.0-1では、正式ロゴ、PWAアイコン、Apple Touch Icon、favicon、ブランドカラー、タイポグラフィ、ボタン、カード、`DESIGN.md`を整備しました。
 

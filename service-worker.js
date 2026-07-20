@@ -1,1 +1,42 @@
-const C="photo-consent-v2-0-bloom-sprint2-0-1-1-logo-fix",A=["./","./index.html","./style.css","./script.js","./manifest.json","./assets/brand/icon-192.png","./assets/brand/logo-readme.png","./icon-512.png","./icon-192.png","./apple-touch-icon.png","./favicon.ico","./favicon.svg","./icon-192.svg","./icon-512.svg"];self.addEventListener("install",e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(A)));self.skipWaiting()});self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))));self.clients.claim()});self.addEventListener("fetch",e=>{if(e.request.method!=="GET")return;e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(x=>{let y=x.clone();caches.open(C).then(c=>c.put(e.request,y));return x}).catch(()=>caches.match("./index.html"))))});
+const CACHE_NAME="photo-consent-v2-0-bloom-sprint2-0-2-css-refactor";
+const ASSETS=[
+  "./",
+  "./index.html",
+  "./style.css",
+  "./script.js",
+  "./manifest.json",
+  "./favicon.svg",
+  "./favicon.ico",
+  "./icon-192.png",
+  "./icon-512.png",
+  "./apple-touch-icon.png",
+  "./assets/brand/icon-mark.svg",
+  "./assets/brand/logo-readme.png",
+  "./assets/brand/logo.png"
+];
+
+self.addEventListener("install",event=>{
+  event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(ASSETS)));
+  self.skipWaiting();
+});
+
+self.addEventListener("activate",event=>{
+  event.waitUntil(
+    caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE_NAME).map(key=>caches.delete(key))))
+  );
+  self.clients.claim();
+});
+
+self.addEventListener("fetch",event=>{
+  if(event.request.method!=="GET")return;
+  event.respondWith(
+    caches.match(event.request).then(cached=>{
+      if(cached)return cached;
+      return fetch(event.request).then(response=>{
+        const copy=response.clone();
+        caches.open(CACHE_NAME).then(cache=>cache.put(event.request,copy));
+        return response;
+      }).catch(()=>caches.match("./index.html"));
+    })
+  );
+});
