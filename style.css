@@ -315,3 +315,48 @@ html.is-screen-transitioning .app-shell{
   transform:none!important;
   -webkit-transform:none!important;
 }
+
+/* Version 1.5 Sprint 5-1
+   iPhone-first crossfade test for Welcome <-> Name only */
+.sprint5-stage{
+  position:relative;
+}
+
+.sprint5-stage .crossfade-step{
+  display:block!important;
+  position:absolute;
+  inset:0;
+  width:100%;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  z-index:0;
+  transition:
+    opacity 420ms cubic-bezier(.22,.65,.3,1),
+    visibility 0s linear 420ms;
+  will-change:opacity;
+  transform:none!important;
+  -webkit-transform:none!important;
+  animation:none!important;
+}
+
+.sprint5-stage .crossfade-step.is-active{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  z-index:2;
+  transition:
+    opacity 420ms cubic-bezier(.22,.65,.3,1),
+    visibility 0s linear 0s;
+}
+
+.sprint5-stage.is-crossfading .crossfade-step{
+  pointer-events:none;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .sprint5-stage .crossfade-step,
+  .sprint5-stage .crossfade-step.is-active{
+    transition:none!important;
+  }
+}
