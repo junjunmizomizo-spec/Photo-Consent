@@ -273,3 +273,32 @@
 .toast{border:0;cursor:pointer;transition:opacity 360ms var(--ease-soft),transform 360ms var(--ease-soft)}
 .toast.is-visible{pointer-events:auto}
 @media(max-width:420px){.admin-summary-stats{grid-template-columns:1fr}}
+
+
+/* Version 1.4: iPhone-first screen transitions */
+.screen.is-active,
+.step.is-active{
+  animation:none!important;
+}
+
+.screen,
+.step{
+  will-change:opacity,transform;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  transform:translateZ(0);
+  -webkit-transform:translateZ(0);
+}
+
+html.is-screen-transitioning .app-shell{
+  pointer-events:none;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .screen,
+  .step{
+    will-change:auto;
+    transform:none!important;
+    -webkit-transform:none!important;
+  }
+}
