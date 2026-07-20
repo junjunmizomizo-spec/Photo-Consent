@@ -308,3 +308,10 @@ html.is-screen-transitioning .app-shell{
 .step.is-active{
   transform-origin:center center;
 }
+
+/* Version 1.4.2: remove transform compositing at fade completion */
+.screen,
+.step{
+  transform:none!important;
+  -webkit-transform:none!important;
+}

@@ -1,4 +1,4 @@
-(()=>{"use strict";/* Harmony: creators-only project name; not shown in the public UI. */const K="photoConsentAppV1",P="1234",O=[{level:1,title:"① 撮影OK",description:"撮影しても大丈夫です。"},{level:2,title:"② 集合写真ならOK",description:"集合写真であれば大丈夫です。"},{level:3,title:"③ 顔が写らなければOK",description:"後ろ姿や手元など、顔が写らない写真であれば大丈夫です。"},{level:4,title:"④ ボケている写真・身体の一部ならOK",description:"人物が特定されにくい写真であれば大丈夫です。"},{level:5,title:"⑤ 今回は撮影を見送ります",description:"今回は写らないように配慮をお願いします。"}],S={name:"",level:null,taps:0,timer:null,edit:null},$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];function D(){let id=crypto.randomUUID();return{activeEventId:id,events:[{id,name:"現在のイベント",createdAt:new Date().toISOString(),responses:[]}]}}function L(){try{let r=localStorage.getItem(K);if(!r){let d=D();W(d);return d}let d=JSON.parse(r);if(!d.events?.length){d=D();W(d)}return d}catch{let d=D();W(d);return d}}function W(d){localStorage.setItem(K,JSON.stringify(d))}function A(d){return d.events.find(e=>e.id===d.activeEventId)||d.events[0]}const transitionState={screen:false,step:false,count:0};
+(()=>{"use strict";/* Harmony: creators-only project name; not shown in the public UI. */const K="photoConsentAppV1",P="1234",O=[{level:1,title:"① 撮影OK",description:"撮影しても大丈夫です。"},{level:2,title:"② 集合写真ならOK",description:"集合写真であれば大丈夫です。"},{level:3,title:"③ 顔が写らなければOK",description:"後ろ姿や手元など、顔が写らない写真であれば大丈夫です。"},{level:4,title:"④ ボケている写真・身体の一部ならOK",description:"人物が特定されにくい写真であれば大丈夫です。"},{level:5,title:"⑤ 今回は撮影を見送ります",description:"今回は写らないように配慮をお願いします。"}],S={name:"",level:null,taps:0,timer:null,edit:null},$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];function D(){let id=crypto.randomUUID();return{activeEventId:id,events:[{id,name:"現在のイベント",createdAt:new Date().toISOString(),responses:[]}]}}function L(){try{let r=localStorage.getItem(K);if(!r){let d=D();W(d);return d}let d=JSON.parse(r);if(!d.events?.length){d=D();W(d)}return d}catch{let d=D();W(d);return d}}function W(d){localStorage.setItem(K,JSON.stringify(d))}function A(d){return d.events.find(e=>e.id===d.activeEventId)||d.events[0]}const transitionState={screen:false,step:false,count:0};const activeAnimations=new WeakMap();
 const reducedMotion=()=>window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 function setTransitionLock(active){
@@ -13,6 +13,8 @@ async function animateSwap(selector,id,key,shouldScroll=false){
   if(reducedMotion()||!Element.prototype.animate){
     $$(selector).forEach(x=>x.classList.remove('is-active'));
     target.classList.add('is-active');
+    target.style.opacity='';
+    target.style.transform='';
     if(shouldScroll)scrollTo({top:0,behavior:'auto'});
     return
   }
@@ -22,55 +24,58 @@ async function animateSwap(selector,id,key,shouldScroll=false){
 
   try{
     if(current){
+      const previous=activeAnimations.get(current);
+      if(previous){
+        previous.cancel();
+        activeAnimations.delete(current)
+      }
+
       const leave=current.animate(
-        [
-          {opacity:1,transform:'translate3d(0,0,0) scale(1)'},
-          {opacity:.55,transform:'translate3d(0,-2px,0) scale(.998)',offset:.58},
-          {opacity:0,transform:'translate3d(0,-5px,0) scale(.995)'}
-        ],
+        [{opacity:1},{opacity:0}],
         {
-          duration:190,
-          easing:'linear',
+          duration:170,
+          easing:'cubic-bezier(.4,0,1,1)',
           fill:'forwards'
         }
       );
-      await Promise.race([leave.finished.catch(()=>{}),wait(250)]);
-      leave.cancel();
+
+      await Promise.race([leave.finished.catch(()=>{}),wait(230)]);
       current.classList.remove('is-active');
+      leave.cancel();
       current.style.opacity='';
       current.style.transform=''
     }
 
-    // Remove the previous final inline state before starting a new entrance.
-    target.style.opacity='';
-    target.style.transform='';
+    const existing=activeAnimations.get(target);
+    if(existing){
+      existing.cancel();
+      activeAnimations.delete(target)
+    }
+
+    target.style.opacity='0';
+    target.style.transform='none';
     target.classList.add('is-active');
     if(shouldScroll)scrollTo({top:0,behavior:'auto'});
 
-    // Two animation frames ensure that iPhone Safari paints the initial state
-    // before beginning the entrance animation.
+    // Safari needs two painted frames before starting the fade.
     await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
 
     const enter=target.animate(
-      [
-        {opacity:0,transform:'translate3d(0,14px,0) scale(.988)',offset:0},
-        {opacity:.42,transform:'translate3d(0,7px,0) scale(.994)',offset:.48},
-        {opacity:.78,transform:'translate3d(0,2px,0) scale(.998)',offset:.78},
-        {opacity:1,transform:'translate3d(0,0,0) scale(1)',offset:1}
-      ],
+      [{opacity:0},{opacity:1}],
       {
-        duration:480,
-        easing:'linear',
+        duration:460,
+        easing:'cubic-bezier(.22,.65,.3,1)',
         fill:'forwards'
       }
     );
-    await Promise.race([enter.finished.catch(()=>{}),wait(560)]);
 
-    // Apply the final visual state before cancelling the animation.
-    // This avoids the small "snap" Safari can show at the very end.
+    activeAnimations.set(target,enter);
+    await Promise.race([enter.finished.catch(()=>{}),wait(540)]);
+
+    // Keep the completed animation attached instead of cancelling it here.
+    // Cancelling at this point causes a one-frame flash on iPhone Safari.
     target.style.opacity='1';
-    target.style.transform='translate3d(0,0,0) scale(1)';
-    enter.cancel()
+    target.style.transform='none'
   }finally{
     transitionState[key]=false;
     setTransitionLock(false)
