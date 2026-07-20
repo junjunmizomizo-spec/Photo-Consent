@@ -1,137 +1,27 @@
-(()=>{"use strict";/* Harmony: creators-only project name; not shown in the public UI. */const K="photoConsentAppV1",P="1234",O=[{level:1,title:"① 撮影OK",description:"撮影しても大丈夫です。"},{level:2,title:"② 集合写真ならOK",description:"集合写真であれば大丈夫です。"},{level:3,title:"③ 顔が写らなければOK",description:"後ろ姿や手元など、顔が写らない写真であれば大丈夫です。"},{level:4,title:"④ ボケている写真・身体の一部ならOK",description:"人物が特定されにくい写真であれば大丈夫です。"},{level:5,title:"⑤ 今回は撮影を見送ります",description:"今回は写らないように配慮をお願いします。"}],S={name:"",level:null,taps:0,timer:null,edit:null},$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];function D(){let id=crypto.randomUUID();return{activeEventId:id,events:[{id,name:"現在のイベント",createdAt:new Date().toISOString(),responses:[]}]}}function L(){try{let r=localStorage.getItem(K);if(!r){let d=D();W(d);return d}let d=JSON.parse(r);if(!d.events?.length){d=D();W(d)}return d}catch{let d=D();W(d);return d}}function W(d){localStorage.setItem(K,JSON.stringify(d))}function A(d){return d.events.find(e=>e.id===d.activeEventId)||d.events[0]}const transitionState={screen:false,step:false,count:0};const activeAnimations=new WeakMap();
-const reducedMotion=()=>window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
-function setTransitionLock(active){
-  transitionState.count=Math.max(0,transitionState.count+(active?1:-1));
-  document.documentElement.classList.toggle('is-screen-transitioning',transitionState.count>0)
+(()=>{"use strict";/* Harmony: creators-only project name; not shown in the public UI. */const K="photoConsentAppV1",P="1234",O=[{level:1,title:"① 撮影OK",description:"撮影しても大丈夫です。"},{level:2,title:"② 集合写真ならOK",description:"集合写真であれば大丈夫です。"},{level:3,title:"③ 顔が写らなければOK",description:"後ろ姿や手元など、顔が写らない写真であれば大丈夫です。"},{level:4,title:"④ ボケている写真・身体の一部ならOK",description:"人物が特定されにくい写真であれば大丈夫です。"},{level:5,title:"⑤ 今回は撮影を見送ります",description:"今回は写らないように配慮をお願いします。"}],S={name:"",level:null,taps:0,timer:null,edit:null},$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];function D(){let id=crypto.randomUUID();return{activeEventId:id,events:[{id,name:"現在のイベント",createdAt:new Date().toISOString(),responses:[]}]}}function L(){try{let r=localStorage.getItem(K);if(!r){let d=D();W(d);return d}let d=JSON.parse(r);if(!d.events?.length){d=D();W(d)}return d}catch{let d=D();W(d);return d}}function W(d){localStorage.setItem(K,JSON.stringify(d))}function A(d){return d.events.find(e=>e.id===d.activeEventId)||d.events[0]}function replayCardFade(container){
+  const card=container?.classList?.contains('stable-motion-card')
+    ? container
+    : container?.querySelector?.('.stable-motion-card');
+  if(!card)return;
+  card.classList.remove('card-enter');
+  void card.offsetWidth;
+  card.classList.add('card-enter');
+  setTimeout(()=>card.classList.remove('card-enter'),320)
 }
-async function animateSwap(selector,id,key,shouldScroll=false){
+function screen(id){
+  $$('.screen').forEach(x=>x.classList.remove('is-active'));
   const target=$(id);
-  const current=$$(selector).find(x=>x.classList.contains('is-active'));
-  if(!target||current===target||transitionState[key])return;
-
-  if(reducedMotion()||!Element.prototype.animate){
-    $$(selector).forEach(x=>x.classList.remove('is-active'));
-    target.classList.add('is-active');
-    target.style.opacity='';
-    target.style.transform='';
-    if(shouldScroll)scrollTo({top:0,behavior:'auto'});
-    return
-  }
-
-  transitionState[key]=true;
-  setTransitionLock(true);
-
-  try{
-    if(current){
-      const previous=activeAnimations.get(current);
-      if(previous){
-        previous.cancel();
-        activeAnimations.delete(current)
-      }
-
-      const leave=current.animate(
-        [{opacity:1},{opacity:0}],
-        {
-          duration:170,
-          easing:'cubic-bezier(.4,0,1,1)',
-          fill:'forwards'
-        }
-      );
-
-      await Promise.race([leave.finished.catch(()=>{}),wait(230)]);
-      current.classList.remove('is-active');
-      leave.cancel();
-      current.style.opacity='';
-      current.style.transform=''
-    }
-
-    const existing=activeAnimations.get(target);
-    if(existing){
-      existing.cancel();
-      activeAnimations.delete(target)
-    }
-
-    target.style.opacity='0';
-    target.style.transform='none';
-    target.classList.add('is-active');
-    if(shouldScroll)scrollTo({top:0,behavior:'auto'});
-
-    // Safari needs two painted frames before starting the fade.
-    await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
-
-    const enter=target.animate(
-      [{opacity:0},{opacity:1}],
-      {
-        duration:460,
-        easing:'cubic-bezier(.22,.65,.3,1)',
-        fill:'forwards'
-      }
-    );
-
-    activeAnimations.set(target,enter);
-    await Promise.race([enter.finished.catch(()=>{}),wait(540)]);
-
-    // Keep the completed animation attached instead of cancelling it here.
-    // Cancelling at this point causes a one-frame flash on iPhone Safari.
-    target.style.opacity='1';
-    target.style.transform='none'
-  }finally{
-    transitionState[key]=false;
-    setTransitionLock(false)
-  }
+  target.classList.add('is-active');
+  replayCardFade(target)
 }
-function screen(id){animateSwap('.screen',id,'screen',false)}
-
-function syncSprint5StageHeight(){
-  const stage=$('#participant-view');
-  const active=$$('.crossfade-step').find(x=>x.classList.contains('is-active'));
-  if(stage&&active){
-    stage.style.minHeight=`${active.offsetHeight}px`
-  }
-}
-
-async function crossfadeStep(id){
+function step(id){
+  $$('.step').forEach(x=>x.classList.remove('is-active'));
   const target=$(id);
-  const current=$$('.crossfade-step').find(x=>x.classList.contains('is-active'));
-  const stage=$('#participant-view');
-
-  if(!target||!target.classList.contains('crossfade-step')){
-    return animateSwap('.step',id,'step',true)
-  }
-  if(current===target||transitionState.step)return;
-
-  if(reducedMotion()){
-    $$('.crossfade-step').forEach(x=>x.classList.remove('is-active'));
-    target.classList.add('is-active');
-    scrollTo({top:0,behavior:'auto'});
-    return
-  }
-
-  transitionState.step=true;
-  setTransitionLock(true);
-  stage.classList.add('is-crossfading');
-
-  try{
-    // Ensure both layers are present before changing opacity.
-    if(current)current.classList.add('is-active');
-    target.classList.remove('is-active');
-    target.getBoundingClientRect();
-
-    requestAnimationFrame(()=>{
-      if(current)current.classList.remove('is-active');
-      target.classList.add('is-active');syncSprint5StageHeight()
-    });
-
-    await wait(470);
-    scrollTo({top:0,behavior:'auto'})
-  }finally{
-    stage.classList.remove('is-crossfading');
-    transitionState.step=false;
-    setTransitionLock(false)
-  }
+  target.classList.add('is-active');
+  scrollTo({top:0,behavior:'auto'});
+  replayCardFade(target)
 }
-function step(id){crossfadeStep(id)}function reset(){S.name='';S.level=null;$('#participant-name').value='';$$('.option-card').forEach(c=>c.setAttribute('aria-pressed','false'));screen('#participant-view');step('#intro-step')}function esc(v){return String(v).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;')}function renderOptions(){let l=$('#option-list');l.innerHTML='';O.forEach(o=>{let b=document.createElement('button');b.type='button';b.className='option-card';b.dataset.level=o.level;b.setAttribute('aria-pressed','false');b.innerHTML=`<strong>${esc(o.title)}</strong><span>${esc(o.description)}</span>`;b.onclick=()=>{S.level=o.level;$$('.option-card').forEach(c=>c.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true')};l.appendChild(b)});$('#edit-option').innerHTML=O.map(o=>`<option value="${o.level}">${esc(o.title)}</option>`).join('')}function toOptions(){let n=$('#participant-name').value.trim();if(!n){alert('お名前を入力してください。');return}S.name=n;step('#option-step')}function toConfirm(){if(!S.level){alert('撮影についてのご希望を選んでください。');return}let o=O.find(x=>x.level===S.level);$('#confirm-name').textContent=S.name;let b=$('#confirm-option');b.textContent=o.title;b.className=`status-badge level-${o.level}`;step('#confirm-step')}function submit(){let d=L(),e=A(d),dup=e.responses.find(x=>x.name.trim().toLowerCase()===S.name.trim().toLowerCase()),r={id:dup?.id||crypto.randomUUID(),name:S.name,level:S.level,option:O.find(x=>x.level===S.level).title,createdAt:dup?.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString()};if(dup){if(!confirm('同じお名前の回答があります。以前の回答を更新しますか？'))return;e.responses=e.responses.map(x=>x.id===dup.id?r:x)}else e.responses.push(r);W(d);step('#complete-step');setTimeout(reset,3000)}function login(){if($('#admin-passcode').value!==P){$('#login-error').textContent='パスコードが違います。';return}screen('#admin-view');renderAdmin()}function renderAdmin(){let d=L(),e=A(d);$('#current-event-title').textContent=e.name;$('#event-response-count').textContent=e.responses.length;$('#event-select').innerHTML=d.events.map(x=>`<option value="${x.id}" ${x.id===d.activeEventId?'selected':''}>${esc(x.name)}（${x.responses.length}件・${x.endedAt?'終了済み':'進行中'}）</option>`).join('');renderResponses();renderEventMeta();updateAdminSummary()}function renderResponses(){let d=L(),e=A(d),q=$('#search-input').value.trim().toLowerCase(),f=$('#filter-select').value,r=[...e.responses].sort((a,b)=>new Date(b.updatedAt)-new Date(a.updatedAt));$('#current-event-title').textContent=e.name;$('#event-response-count').textContent=e.responses.length;if(q)r=r.filter(x=>x.name.toLowerCase().includes(q));if(f!=='all')r=r.filter(x=>String(x.level)===f);$('#response-count').textContent=`${r.length}件`;let l=$('#response-list');if(!r.length){l.innerHTML='<p class="helper">該当する回答はありません。</p>';return}l.innerHTML='';r.forEach(x=>{let c=document.createElement('article');c.className=`response-card level-${x.level}`;c.innerHTML=`<h3>${esc(x.name)}</h3><p>${esc(x.option)}</p><p class="helper">更新：${new Date(x.updatedAt).toLocaleString('ja-JP')}</p><div class="response-actions"><button class="edit-button">編集</button><button class="delete-button">削除</button></div>`;c.querySelector('.edit-button').onclick=()=>edit(x.id);c.querySelector('.delete-button').onclick=()=>del(x.id);l.appendChild(c)})}function newEvent(){let n=$('#new-event-name').value.trim();if(!n){alert('イベント名を入力してください。');$('#new-event-name').focus();return}let d=L();if(d.events.some(e=>e.name.trim().toLowerCase()===n.toLowerCase())){alert('同じ名前のイベントがあります。別の名前を入力してください。');$('#new-event-name').focus();return}let id=crypto.randomUUID();d.events.push({id,name:n,createdAt:new Date().toISOString(),responses:[]});d.activeEventId=id;W(d);$('#new-event-name').value='';$('#event-form').classList.add('is-hidden');renderAdmin()}function edit(id){let d=L(),r=A(d).responses.find(x=>x.id===id);if(!r)return;S.edit=id;$('#edit-name').value=r.name;$('#edit-option').value=r.level;$('#edit-dialog').showModal()}function saveEdit(){let n=$('#edit-name').value.trim(),lv=Number($('#edit-option').value);if(!n){alert('お名前を入力してください。');return}let d=L(),e=A(d);e.responses=e.responses.map(x=>x.id===S.edit?{...x,name:n,level:lv,option:O.find(o=>o.level===lv).title,updatedAt:new Date().toISOString()}:x);W(d);renderResponses()}function del(id){if(!confirm('この回答を削除しますか？'))return;let d=L(),e=A(d);e.responses=e.responses.filter(x=>x.id!==id);W(d);renderResponses()}function csv(returnSuccess=false){
+function reset(){S.name='';S.level=null;$('#participant-name').value='';$$('.option-card').forEach(c=>c.setAttribute('aria-pressed','false'));screen('#participant-view');step('#intro-step')}function esc(v){return String(v).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;')}function renderOptions(){let l=$('#option-list');l.innerHTML='';O.forEach(o=>{let b=document.createElement('button');b.type='button';b.className='option-card';b.dataset.level=o.level;b.setAttribute('aria-pressed','false');b.innerHTML=`<strong>${esc(o.title)}</strong><span>${esc(o.description)}</span>`;b.onclick=()=>{S.level=o.level;$$('.option-card').forEach(c=>c.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true')};l.appendChild(b)});$('#edit-option').innerHTML=O.map(o=>`<option value="${o.level}">${esc(o.title)}</option>`).join('')}function toOptions(){let n=$('#participant-name').value.trim();if(!n){alert('お名前を入力してください。');return}S.name=n;step('#option-step')}function toConfirm(){if(!S.level){alert('撮影についてのご希望を選んでください。');return}let o=O.find(x=>x.level===S.level);$('#confirm-name').textContent=S.name;let b=$('#confirm-option');b.textContent=o.title;b.className=`status-badge level-${o.level}`;step('#confirm-step')}function submit(){let d=L(),e=A(d),dup=e.responses.find(x=>x.name.trim().toLowerCase()===S.name.trim().toLowerCase()),r={id:dup?.id||crypto.randomUUID(),name:S.name,level:S.level,option:O.find(x=>x.level===S.level).title,createdAt:dup?.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString()};if(dup){if(!confirm('同じお名前の回答があります。以前の回答を更新しますか？'))return;e.responses=e.responses.map(x=>x.id===dup.id?r:x)}else e.responses.push(r);W(d);step('#complete-step');setTimeout(reset,3000)}function login(){if($('#admin-passcode').value!==P){$('#login-error').textContent='パスコードが違います。';return}screen('#admin-view');renderAdmin()}function renderAdmin(){let d=L(),e=A(d);$('#current-event-title').textContent=e.name;$('#event-response-count').textContent=e.responses.length;$('#event-select').innerHTML=d.events.map(x=>`<option value="${x.id}" ${x.id===d.activeEventId?'selected':''}>${esc(x.name)}（${x.responses.length}件・${x.endedAt?'終了済み':'進行中'}）</option>`).join('');renderResponses();renderEventMeta();updateAdminSummary()}function renderResponses(){let d=L(),e=A(d),q=$('#search-input').value.trim().toLowerCase(),f=$('#filter-select').value,r=[...e.responses].sort((a,b)=>new Date(b.updatedAt)-new Date(a.updatedAt));$('#current-event-title').textContent=e.name;$('#event-response-count').textContent=e.responses.length;if(q)r=r.filter(x=>x.name.toLowerCase().includes(q));if(f!=='all')r=r.filter(x=>String(x.level)===f);$('#response-count').textContent=`${r.length}件`;let l=$('#response-list');if(!r.length){l.innerHTML='<p class="helper">該当する回答はありません。</p>';return}l.innerHTML='';r.forEach(x=>{let c=document.createElement('article');c.className=`response-card level-${x.level}`;c.innerHTML=`<h3>${esc(x.name)}</h3><p>${esc(x.option)}</p><p class="helper">更新：${new Date(x.updatedAt).toLocaleString('ja-JP')}</p><div class="response-actions"><button class="edit-button">編集</button><button class="delete-button">削除</button></div>`;c.querySelector('.edit-button').onclick=()=>edit(x.id);c.querySelector('.delete-button').onclick=()=>del(x.id);l.appendChild(c)})}function newEvent(){let n=$('#new-event-name').value.trim();if(!n){alert('イベント名を入力してください。');$('#new-event-name').focus();return}let d=L();if(d.events.some(e=>e.name.trim().toLowerCase()===n.toLowerCase())){alert('同じ名前のイベントがあります。別の名前を入力してください。');$('#new-event-name').focus();return}let id=crypto.randomUUID();d.events.push({id,name:n,createdAt:new Date().toISOString(),responses:[]});d.activeEventId=id;W(d);$('#new-event-name').value='';$('#event-form').classList.add('is-hidden');renderAdmin()}function edit(id){let d=L(),r=A(d).responses.find(x=>x.id===id);if(!r)return;S.edit=id;$('#edit-name').value=r.name;$('#edit-option').value=r.level;$('#edit-dialog').showModal()}function saveEdit(){let n=$('#edit-name').value.trim(),lv=Number($('#edit-option').value);if(!n){alert('お名前を入力してください。');return}let d=L(),e=A(d);e.responses=e.responses.map(x=>x.id===S.edit?{...x,name:n,level:lv,option:O.find(o=>o.level===lv).title,updatedAt:new Date().toISOString()}:x);W(d);renderResponses()}function del(id){if(!confirm('この回答を削除しますか？'))return;let d=L(),e=A(d);e.responses=e.responses.filter(x=>x.id!==id);W(d);renderResponses()}function csv(returnSuccess=false){
 let d=L(),e=A(d);
 if(!e.responses.length){
   if(!returnSuccess)alert('書き出す回答がありません。');
@@ -271,6 +161,4 @@ S.name='';
 S.level=null;
 $('#participant-name').value='';
 $$('.option-card').forEach(c=>c.setAttribute('aria-pressed','false'));
-requestAnimationFrame(syncSprint5StageHeight);
-addEventListener('resize',syncSprint5StageHeight);
 })();

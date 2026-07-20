@@ -316,47 +316,54 @@ html.is-screen-transitioning .app-shell{
   -webkit-transform:none!important;
 }
 
-/* Version 1.5 Sprint 5-1
-   iPhone-first crossfade test for Welcome <-> Name only */
-.sprint5-stage{
-  position:relative;
-}
-
-.sprint5-stage .crossfade-step{
-  display:block!important;
-  position:absolute;
-  inset:0;
-  width:100%;
-  opacity:0;
-  visibility:hidden;
-  pointer-events:none;
-  z-index:0;
-  transition:
-    opacity 420ms cubic-bezier(.22,.65,.3,1),
-    visibility 0s linear 420ms;
-  will-change:opacity;
-  transform:none!important;
-  -webkit-transform:none!important;
+/* Version 1.5 Stable Motion
+   Preserve the proven layout and animate only the card content. */
+.screen.is-active,
+.step.is-active{
   animation:none!important;
 }
 
-.sprint5-stage .crossfade-step.is-active{
-  opacity:1;
-  visibility:visible;
-  pointer-events:auto;
-  z-index:2;
-  transition:
-    opacity 420ms cubic-bezier(.22,.65,.3,1),
-    visibility 0s linear 0s;
+.stable-motion-card{
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  transform:none!important;
+  -webkit-transform:none!important;
 }
 
-.sprint5-stage.is-crossfading .crossfade-step{
-  pointer-events:none;
+.stable-motion-card.card-enter{
+  animation:stable-card-fade 260ms ease-out both!important;
+}
+
+@keyframes stable-card-fade{
+  from{opacity:.72}
+  to{opacity:1}
+}
+
+.primary-button,
+.secondary-button,
+.danger-button,
+.small-button,
+.option-card,
+.file-button{
+  transition:
+    transform 120ms ease-out,
+    opacity 120ms ease-out,
+    box-shadow 160ms ease-out;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.primary-button:active,
+.secondary-button:active,
+.danger-button:active,
+.small-button:active,
+.option-card:active,
+.file-button:active{
+  transform:scale(.985)!important;
+  opacity:.9;
 }
 
 @media (prefers-reduced-motion:reduce){
-  .sprint5-stage .crossfade-step,
-  .sprint5-stage .crossfade-step.is-active{
-    transition:none!important;
+  .stable-motion-card.card-enter{
+    animation:none!important;
   }
 }
