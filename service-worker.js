@@ -1,4 +1,4 @@
-const CACHE_NAME="photo-consent-v2-1-2-v2-1-ui-refresh-sprint2-1-1";
+const CACHE_NAME="photo-consent-v2-1-3-v2-1-3-v2-1-ui-refresh-sprint2-1-1";
 const ASSETS=[
   "./",
   "./index.html",

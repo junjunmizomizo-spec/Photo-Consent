@@ -1,4 +1,11 @@
 
+## Version 2.1.3 “No Heart Logo”
+
+- Welcome画面のカメラロゴからハートを削除
+- 元のシンプルなカメラ＋葉っぱの方向へ修正
+- Welcomeロゴを透過PNGで安定表示
+
+
 ## Version 2.1.2 “Logo Stable”
 
 - Welcome画面のロゴを、承認済みの見た目をもとにしたPNG表示へ変更
