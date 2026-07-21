@@ -1,21 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 200" role="img" aria-labelledby="title">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 210" role="img" aria-labelledby="title">
 <title id="title">Photo Consent</title>
 <defs>
-  <linearGradient id="pcg" x1="42" y1="166" x2="202" y2="38" gradientUnits="userSpaceOnUse">
-    <stop offset="0" stop-color="#4C9B99"/>
-    <stop offset=".56" stop-color="#75B989"/>
-    <stop offset="1" stop-color="#A8C979"/>
+  <linearGradient id="g" x1="42" y1="170" x2="220" y2="45" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#42A09B"/>
+    <stop offset=".55" stop-color="#73B98A"/>
+    <stop offset="1" stop-color="#A8CD72"/>
   </linearGradient>
 </defs>
-<g fill="none" stroke="url(#pcg)" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M53 61h40l14-21h47l14 21h19c17 0 30 13 30 30v55c0 17-13 30-30 30H53c-17 0-30-13-30-30V91c0-17 13-30 30-30Z" stroke-width="9"/>
-  <circle cx="119" cy="119" r="35" stroke-width="9"/>
-  <circle cx="183" cy="88" r="6" fill="#9CC878" stroke="none"/>
-  <path d="M165 170c18-2 35-12 47-28" stroke-width="7"/>
-</g>
-<g fill="url(#pcg)">
-  <path d="M181 159c-2-17 4-31 17-40 8 17 5 32-8 44-3 2-6 1-9-4Z"/>
-  <path d="M197 146c13-11 29-14 43-8-8 17-22 24-39 20-4-1-6-7-4-12Z"/>
-  <path d="M169 171c-12-10-18-24-15-39 17 5 27 17 28 34 0 5-8 9-13 5Z"/>
+<g fill="none" stroke="url(#g)" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M58 68h46l15-22h50l15 22h20c18 0 32 14 32 32v52c0 18-14 32-32 32H58c-18 0-32-14-32-32v-52c0-18 14-32 32-32Z" stroke-width="10"/>
+  <circle cx="129" cy="123" r="37" stroke-width="9"/>
+  <circle cx="199" cy="94" r="6.5" fill="#9BCB75" stroke="none"/>
+  <path d="M177 177c20-2 39-13 52-31" stroke-width="7"/>
+  <path d="M194 164c-2-15 4-29 16-39 7 17 5 31-7 43" stroke-width="7"/>
+  <path d="M210 151c14-9 29-10 43-3-10 14-23 20-42 15" stroke-width="7"/>
+  <path d="M183 174c-11-10-16-23-13-38 16 5 25 17 26 32" stroke-width="7"/>
 </g>
 </svg>

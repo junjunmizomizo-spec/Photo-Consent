@@ -1,4 +1,18 @@
 <p align="center">
+
+
+## Version 2.1.4 “Approved Mock”
+
+「いいね」で確定したWelcome画面を基準に、PCとiPhoneの両方へ再実装しました。
+
+- カメラ＋葉っぱのハートなしロゴ
+- 少し正方形に近いカメラ形状
+- 緑から黄緑へのグラデーション
+- PCでは広めのカードと余白
+- iPhoneでは同じ構成を保ったまま縮小
+- 注意文と本文の中央位置を統一
+- CSS・JavaScript参照にバージョン番号を付け、古いキャッシュを回避
+
   <img src="./assets/brand/logo-readme.png" alt="Photo Consent" width="640">
 </p>
 
