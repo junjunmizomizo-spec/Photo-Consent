@@ -1696,3 +1696,91 @@ body{
     grid-template-columns:1fr;
   }
 }
+
+
+/* =========================================================
+   Version 2.4 — Release Candidate: quality & accessibility
+========================================================= */
+
+.sr-only{
+  position:absolute!important;
+  width:1px!important;
+  height:1px!important;
+  padding:0!important;
+  margin:-1px!important;
+  overflow:hidden!important;
+  clip:rect(0,0,0,0)!important;
+  white-space:nowrap!important;
+  border:0!important;
+}
+
+.inline-error{
+  min-height:1.5em;
+  margin:8px 0 0;
+  color:#B44549;
+  font-size:.86rem;
+  font-weight:700;
+  line-height:1.5;
+}
+
+.option-error{
+  margin:10px 0 0;
+  text-align:center;
+}
+
+button:disabled{
+  cursor:not-allowed;
+  opacity:.48;
+  box-shadow:none!important;
+  transform:none!important;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex="-1"]:focus-visible{
+  outline:3px solid rgba(47,125,99,.28);
+  outline-offset:3px;
+}
+
+.option-card:focus-visible{
+  outline-color:rgba(47,125,99,.38);
+}
+
+.next-participant-button{
+  width:min(100%,280px);
+  min-height:52px;
+  margin:22px auto 0;
+  border-radius:999px;
+}
+
+.complete-panel .helper{
+  margin-bottom:0;
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,
+  *::before,
+  *::after{
+    scroll-behavior:auto!important;
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+}
+
+@media(forced-colors:active){
+  .welcome-brand h1,
+  .welcome-introduction h2,
+  .participant-step h2,
+  .admin-login-card h2,
+  .admin-header-brand h1{
+    color:CanvasText;
+    background:none;
+  }
+
+  .option-card[aria-pressed="true"]{
+    outline:3px solid Highlight;
+  }
+}

@@ -8,20 +8,78 @@
   card.classList.add('card-enter');
   setTimeout(()=>card.classList.remove('card-enter'),320)
 }
+function focusTarget(container){
+  const preferred=container?.querySelector('input:not([type="hidden"]),select,textarea,h1,h2');
+  if(!preferred)return;
+  const hadTabindex=preferred.hasAttribute('tabindex');
+  if(!hadTabindex&&!preferred.matches('input,select,textarea,button,a'))preferred.setAttribute('tabindex','-1');
+  requestAnimationFrame(()=>preferred.focus({preventScroll:true}))
+}
 function screen(id){
   $$('.screen').forEach(x=>x.classList.remove('is-active'));
   const target=$(id);
   target.classList.add('is-active');
-  replayCardFade(target)
+  replayCardFade(target);
+  focusTarget(target)
 }
 function step(id){
   $$('.step').forEach(x=>x.classList.remove('is-active'));
   const target=$(id);
   target.classList.add('is-active');
   scrollTo({top:0,behavior:'auto'});
-  replayCardFade(target)
+  replayCardFade(target);
+  focusTarget(target)
 }
-function reset(){S.name='';S.level=null;$('#participant-name').value='';$$('.option-card').forEach(c=>c.setAttribute('aria-pressed','false'));screen('#participant-view');step('#intro-step')}function esc(v){return String(v).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;')}function renderOptions(){let l=$('#option-list');l.innerHTML='';O.forEach(o=>{let b=document.createElement('button');b.type='button';b.className='option-card';b.dataset.level=o.level;b.setAttribute('aria-pressed','false');b.innerHTML=`<strong>${esc(o.title)}</strong><span>${esc(o.description)}</span>`;b.onclick=()=>{S.level=o.level;$$('.option-card').forEach(c=>c.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true')};l.appendChild(b)});$('#edit-option').innerHTML=O.map(o=>`<option value="${o.level}">${esc(o.title)}</option>`).join('')}function toOptions(){let n=$('#participant-name').value.trim();if(!n){alert('お名前を入力してください。');return}S.name=n;step('#option-step')}function toConfirm(){if(!S.level){alert('撮影についてのご希望を選んでください。');return}let o=O.find(x=>x.level===S.level);$('#confirm-name').textContent=S.name;let b=$('#confirm-option');b.textContent=o.title;b.className=`status-badge level-${o.level}`;step('#confirm-step')}function submit(){let d=L(),e=A(d),dup=e.responses.find(x=>x.name.trim().toLowerCase()===S.name.trim().toLowerCase()),r={id:dup?.id||crypto.randomUUID(),name:S.name,level:S.level,option:O.find(x=>x.level===S.level).title,createdAt:dup?.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString()};if(dup){if(!confirm('同じお名前の回答があります。以前の回答を更新しますか？'))return;e.responses=e.responses.map(x=>x.id===dup.id?r:x)}else e.responses.push(r);W(d);step('#complete-step');setTimeout(reset,3000)}function login(){if($('#admin-passcode').value!==P){$('#login-error').textContent='パスコードが違います。';return}screen('#admin-view');renderAdmin()}function renderAdmin(){let d=L(),e=A(d);$('#current-event-title').textContent=e.name;$('#event-response-count').textContent=e.responses.length;$('#event-select').innerHTML=d.events.map(x=>`<option value="${x.id}" ${x.id===d.activeEventId?'selected':''}>${esc(x.name)}（${x.responses.length}件・${x.endedAt?'終了済み':'進行中'}）</option>`).join('');renderResponses();renderEventMeta();updateAdminSummary()}function renderResponses(){let d=L(),e=A(d),q=$('#search-input').value.trim().toLowerCase(),f=$('#filter-select').value,r=[...e.responses].sort((a,b)=>new Date(b.updatedAt)-new Date(a.updatedAt));$('#current-event-title').textContent=e.name;$('#event-response-count').textContent=e.responses.length;if(q)r=r.filter(x=>x.name.toLowerCase().includes(q));if(f!=='all')r=r.filter(x=>String(x.level)===f);$('#response-count').textContent=`${r.length}件`;let l=$('#response-list');if(!r.length){l.innerHTML='<p class="helper">該当する回答はありません。</p>';return}l.innerHTML='';r.forEach(x=>{let c=document.createElement('article');c.className=`response-card level-${x.level}`;c.innerHTML=`<div class="response-card-head"><div><p class="response-level">回答 ${x.level}</p><h3>${esc(x.name)}</h3></div><span class="response-level-dot" aria-hidden="true">${x.level}</span></div><p class="response-option">${esc(x.option)}</p><p class="helper response-updated">更新：${new Date(x.updatedAt).toLocaleString('ja-JP')}</p><div class="response-actions"><button class="edit-button">編集</button><button class="delete-button">削除</button></div>`;c.querySelector('.edit-button').onclick=()=>edit(x.id);c.querySelector('.delete-button').onclick=()=>del(x.id);l.appendChild(c)})}function newEvent(){let n=$('#new-event-name').value.trim();if(!n){alert('イベント名を入力してください。');$('#new-event-name').focus();return}let d=L();if(d.events.some(e=>e.name.trim().toLowerCase()===n.toLowerCase())){alert('同じ名前のイベントがあります。別の名前を入力してください。');$('#new-event-name').focus();return}let id=crypto.randomUUID();d.events.push({id,name:n,createdAt:new Date().toISOString(),responses:[]});d.activeEventId=id;W(d);$('#new-event-name').value='';$('#event-form').classList.add('is-hidden');renderAdmin()}function edit(id){let d=L(),r=A(d).responses.find(x=>x.id===id);if(!r)return;S.edit=id;$('#edit-name').value=r.name;$('#edit-option').value=r.level;$('#edit-dialog').showModal()}function saveEdit(){let n=$('#edit-name').value.trim(),lv=Number($('#edit-option').value);if(!n){alert('お名前を入力してください。');return}let d=L(),e=A(d);e.responses=e.responses.map(x=>x.id===S.edit?{...x,name:n,level:lv,option:O.find(o=>o.level===lv).title,updatedAt:new Date().toISOString()}:x);W(d);renderResponses()}function del(id){if(!confirm('この回答を削除しますか？'))return;let d=L(),e=A(d);e.responses=e.responses.filter(x=>x.id!==id);W(d);renderResponses()}function csv(returnSuccess=false){
+function setInlineError(id,message=''){
+  const el=$(id);
+  if(el)el.textContent=message
+}
+function updateParticipantControls(){
+  const nameButton=$('[data-action="to-options"]');
+  const optionButton=$('[data-action="to-confirm"]');
+  if(nameButton)nameButton.disabled=!$('#participant-name').value.trim();
+  if(optionButton)optionButton.disabled=!S.level
+}
+function announceParticipant(message){
+  const el=$('#participant-status');
+  if(el)el.textContent=message
+}
+function reset(){
+  clearTimeout(S.timer);
+  S.timer=null;
+  S.name='';
+  S.level=null;
+  $('#participant-name').value='';
+  setInlineError('#name-error');
+  setInlineError('#option-error');
+  $$('.option-card').forEach(c=>c.setAttribute('aria-pressed','false'));
+  updateParticipantControls();
+  screen('#participant-view');
+  step('#intro-step')
+}function esc(v){return String(v).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;')}function renderOptions(){let l=$('#option-list');l.innerHTML='';O.forEach(o=>{let b=document.createElement('button');b.type='button';b.className='option-card';b.dataset.level=o.level;b.setAttribute('aria-pressed','false');b.innerHTML=`<strong>${esc(o.title)}</strong><span>${esc(o.description)}</span>`;b.onclick=()=>{S.level=o.level;$$('.option-card').forEach(c=>c.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');setInlineError('#option-error');updateParticipantControls()};l.appendChild(b)});$('#edit-option').innerHTML=O.map(o=>`<option value="${o.level}">${esc(o.title)}</option>`).join('')}function toOptions(){
+  let n=$('#participant-name').value.trim();
+  if(!n){
+    setInlineError('#name-error','お名前を入力してください。');
+    $('#participant-name').focus();
+    return
+  }
+  setInlineError('#name-error');
+  S.name=n;
+  step('#option-step')
+}function toConfirm(){
+  if(!S.level){
+    setInlineError('#option-error','撮影についてのご希望を選んでください。');
+    $('#option-list').focus?.();
+    return
+  }
+  setInlineError('#option-error');
+  let o=O.find(x=>x.level===S.level);
+  $('#confirm-name').textContent=S.name;
+  let b=$('#confirm-option');
+  b.textContent=o.title;
+  b.className=`status-badge level-${o.level}`;
+  step('#confirm-step')
+}function submit(){let d=L(),e=A(d),dup=e.responses.find(x=>x.name.trim().toLowerCase()===S.name.trim().toLowerCase()),r={id:dup?.id||crypto.randomUUID(),name:S.name,level:S.level,option:O.find(x=>x.level===S.level).title,createdAt:dup?.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString()};if(dup){if(!confirm('同じお名前の回答があります。以前の回答を更新しますか？'))return;e.responses=e.responses.map(x=>x.id===dup.id?r:x)}else e.responses.push(r);W(d);step('#complete-step');announceParticipant('回答を保存しました。');clearTimeout(S.timer);S.timer=setTimeout(reset,3000)}function login(){if($('#admin-passcode').value!==P){$('#login-error').textContent='パスコードが違います。';return}screen('#admin-view');renderAdmin()}function renderAdmin(){let d=L(),e=A(d);$('#current-event-title').textContent=e.name;$('#event-response-count').textContent=e.responses.length;$('#event-select').innerHTML=d.events.map(x=>`<option value="${x.id}" ${x.id===d.activeEventId?'selected':''}>${esc(x.name)}（${x.responses.length}件・${x.endedAt?'終了済み':'進行中'}）</option>`).join('');renderResponses();renderEventMeta();updateAdminSummary()}function renderResponses(){let d=L(),e=A(d),q=$('#search-input').value.trim().toLowerCase(),f=$('#filter-select').value,r=[...e.responses].sort((a,b)=>new Date(b.updatedAt)-new Date(a.updatedAt));$('#current-event-title').textContent=e.name;$('#event-response-count').textContent=e.responses.length;if(q)r=r.filter(x=>x.name.toLowerCase().includes(q));if(f!=='all')r=r.filter(x=>String(x.level)===f);$('#response-count').textContent=`${r.length}件`;let l=$('#response-list');if(!r.length){l.innerHTML='<p class="helper">該当する回答はありません。</p>';return}l.innerHTML='';r.forEach(x=>{let c=document.createElement('article');c.className=`response-card level-${x.level}`;c.innerHTML=`<div class="response-card-head"><div><p class="response-level">回答 ${x.level}</p><h3>${esc(x.name)}</h3></div><span class="response-level-dot" aria-hidden="true">${x.level}</span></div><p class="response-option">${esc(x.option)}</p><p class="helper response-updated">更新：${new Date(x.updatedAt).toLocaleString('ja-JP')}</p><div class="response-actions"><button class="edit-button">編集</button><button class="delete-button">削除</button></div>`;c.querySelector('.edit-button').onclick=()=>edit(x.id);c.querySelector('.delete-button').onclick=()=>del(x.id);l.appendChild(c)})}function newEvent(){let n=$('#new-event-name').value.trim();if(!n){alert('イベント名を入力してください。');$('#new-event-name').focus();return}let d=L();if(d.events.some(e=>e.name.trim().toLowerCase()===n.toLowerCase())){alert('同じ名前のイベントがあります。別の名前を入力してください。');$('#new-event-name').focus();return}let id=crypto.randomUUID();d.events.push({id,name:n,createdAt:new Date().toISOString(),responses:[]});d.activeEventId=id;W(d);$('#new-event-name').value='';$('#event-form').classList.add('is-hidden');renderAdmin()}function edit(id){let d=L(),r=A(d).responses.find(x=>x.id===id);if(!r)return;S.edit=id;$('#edit-name').value=r.name;$('#edit-option').value=r.level;$('#edit-dialog').showModal()}function saveEdit(){let n=$('#edit-name').value.trim(),lv=Number($('#edit-option').value);if(!n){alert('お名前を入力してください。');return}let d=L(),e=A(d);e.responses=e.responses.map(x=>x.id===S.edit?{...x,name:n,level:lv,option:O.find(o=>o.level===lv).title,updatedAt:new Date().toISOString()}:x);W(d);renderResponses()}function del(id){if(!confirm('この回答を削除しますか？'))return;let d=L(),e=A(d);e.responses=e.responses.filter(x=>x.id!==id);W(d);renderResponses()}function csv(returnSuccess=false){
 let d=L(),e=A(d);
 if(!e.responses.length){
   if(!returnSuccess)alert('書き出す回答がありません。');
@@ -150,15 +208,20 @@ function showToast(message,icon='✓',kind='success'){
   requestAnimationFrame(()=>toast.classList.add('is-visible'));
   toastTimer=setTimeout(()=>toast.classList.remove('is-visible'),4000);
 }
-document.onclick=e=>{let a=e.target.closest('[data-action]')?.dataset.action;if(!a)return;({start:()=>step('#name-step'),'back-intro':()=>step('#intro-step'),'to-options':toOptions,'back-name':()=>step('#name-step'),'to-confirm':toConfirm,edit:()=>step('#name-step'),submit,'admin-cancel':reset,'admin-login':login,'admin-logout':reset,'new-event':()=>$('#event-form').classList.remove('is-hidden'),'cancel-event':()=>$('#event-form').classList.add('is-hidden'),'save-event':newEvent,'finish-event':finishEvent,'delete-event':deleteEvent,'reopen-event':reopenEvent,'backup-data':backupData,'export-csv':csv}[a]||(()=>{}))()};let holdTimer=null;
+document.onclick=e=>{let a=e.target.closest('[data-action]')?.dataset.action;if(!a)return;({start:()=>step('#name-step'),'back-intro':()=>step('#intro-step'),'to-options':toOptions,'back-name':()=>step('#name-step'),'to-confirm':toConfirm,edit:()=>step('#name-step'),submit,'admin-cancel':reset,'admin-login':login,'admin-logout':reset,'new-event':()=>$('#event-form').classList.remove('is-hidden'),'cancel-event':()=>$('#event-form').classList.add('is-hidden'),'save-event':newEvent,'finish-event':finishEvent,'delete-event':deleteEvent,'reopen-event':reopenEvent,'backup-data':backupData,'export-csv':csv,'next-participant':reset}[a]||(()=>{}))()};let holdTimer=null;
 const adminTrigger=$('#admin-trigger');
 const openAdmin=()=>{if(navigator.vibrate)navigator.vibrate(40);$('#admin-passcode').value='';$('#login-error').textContent='';screen('#admin-login-view')};
 adminTrigger.onpointerdown=e=>{e.preventDefault();clearTimeout(holdTimer);holdTimer=setTimeout(openAdmin,1800)};
 ['pointerup','pointercancel','pointerleave'].forEach(n=>adminTrigger.addEventListener(n,()=>clearTimeout(holdTimer)));
-adminTrigger.oncontextmenu=e=>e.preventDefault();$('#event-select').onchange=e=>{let d=L();d.activeEventId=e.target.value;W(d);$('#search-input').value='';$('#filter-select').value='all';renderAdmin()};$('#search-input').oninput=renderResponses;$('#filter-select').onchange=renderResponses;$('#save-edit-button').onclick=e=>{e.preventDefault();saveEdit();$('#edit-dialog').close()};$('#restore-input').onchange=e=>restoreData(e.target.files[0]);if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js'));
+adminTrigger.oncontextmenu=e=>e.preventDefault();
+$('#participant-name').addEventListener('input',()=>{setInlineError('#name-error');updateParticipantControls()});
+$('#participant-name').addEventListener('keydown',e=>{if(e.key==='Enter'&&!$('[data-action="to-options"]').disabled){e.preventDefault();toOptions()}});
+$('#admin-passcode').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();login()}});
+$('#event-select').onchange=e=>{let d=L();d.activeEventId=e.target.value;W(d);$('#search-input').value='';$('#filter-select').value='all';renderAdmin()};$('#search-input').oninput=renderResponses;$('#filter-select').onchange=renderResponses;$('#save-edit-button').onclick=e=>{e.preventDefault();saveEdit();$('#edit-dialog').close()};$('#restore-input').onchange=e=>restoreData(e.target.files[0]);if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js'));
 renderOptions();
 S.name='';
 S.level=null;
 $('#participant-name').value='';
 $$('.option-card').forEach(c=>c.setAttribute('aria-pressed','false'));
+updateParticipantControls();
 })();

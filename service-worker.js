@@ -1,4 +1,4 @@
-const CACHE_NAME="photo-consent-v2-3-admin-dashboard";
+const CACHE_NAME="photo-consent-v2-4-release-candidate";
 const ASSETS=["./","./index.html","./style.css","./script.js","./manifest.json","./favicon.svg","./favicon.ico","./icon-192.png","./icon-512.png","./apple-touch-icon.png","./assets/brand/ui-logo.svg","./assets/brand/welcome-logo.png","./assets/brand/welcome-landscape.svg","./assets/brand/logo-readme.png"];
 self.addEventListener("install",event=>{event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(ASSETS)));self.skipWaiting()});
 self.addEventListener("activate",event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE_NAME).map(key=>caches.delete(key)))));self.clients.claim()});
