@@ -1,4 +1,4 @@
-# Photo Consent Version 2.4 確認チェックリスト
+# Photo Consent Version 2.4.0 Official 確認チェックリスト
 
 ## 参加者画面
 - Welcome画面から「はじめる」で名前入力へ進める
