@@ -1,6 +1,20 @@
 <p align="center">
 
 
+## Version 2.2 “Participant Flow”
+
+Welcome画面に続く参加者向け画面を、同じデザインへ統一しました。
+
+- 名前入力画面
+- 撮影希望の選択画面
+- 確認画面
+- 保存完了画面
+- STEP表示とグラデーション見出し
+- PCとiPhoneのレスポンシブ対応
+- 保存・イベント管理など既存機能は維持
+
+
+
 ## Version 2.1.4 “Approved Mock”
 
 「いいね」で確定したWelcome画面を基準に、PCとiPhoneの両方へ再実装しました。
