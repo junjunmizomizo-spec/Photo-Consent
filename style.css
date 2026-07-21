@@ -682,447 +682,60 @@ dialog::backdrop{background:rgba(19,35,27,.42)}
 }
 
 /* =========================================================
-   Photo Consent Version 2.1 "UI Refresh"
-   Sprint 2.1-1 — Welcome & Choice screens
+   Photo Consent Version 2.1 — Final UI Refresh
 ========================================================= */
-
 :root{
-  --ui-teal:#4C9B99;
-  --ui-leaf:#78B989;
-  --ui-lime:#A8C979;
-
-  --choice-1-bg:#E7F4E8;
-  --choice-1-accent:#4F9A61;
-  --choice-2-bg:#FFF3C9;
-  --choice-2-accent:#E4A900;
-  --choice-3-bg:#FFE2BC;
-  --choice-3-accent:#EC8622;
-  --choice-4-bg:#FFD6CC;
-  --choice-4-accent:#EF6550;
-  --choice-5-bg:#FFC5C8;
-  --choice-5-accent:#E7444D;
+  --ui-teal:#4C9B99;--ui-leaf:#75B989;--ui-lime:#A8C979;
+  --choice-1-bg:#E7F4E8;--choice-1-accent:#4F9A61;
+  --choice-2-bg:#FFF3C9;--choice-2-accent:#E4A900;
+  --choice-3-bg:#FFE2BC;--choice-3-accent:#EC8622;
+  --choice-4-bg:#FFD6CC;--choice-4-accent:#EF6550;
+  --choice-5-bg:#FFC5C8;--choice-5-accent:#E7444D;
 }
-
-.participant-theme{
-  position:relative;
-}
-
-.participant-theme > .step:not(#intro-step){
-  margin-top:62px;
-}
-
+.participant-theme{position:relative}
+.participant-theme>.step:not(#intro-step){margin-top:62px}
 .welcome-panel{
   min-height:min(820px,calc(100dvh - max(40px,env(safe-area-inset-top)) - max(52px,env(safe-area-inset-bottom))));
-  padding:48px 34px 132px;
-  border-color:rgba(76,155,153,.12);
-  border-radius:30px;
-  background:
-    linear-gradient(180deg,rgba(255,255,255,.98),rgba(255,255,255,.98)),
-    var(--panel);
-  box-shadow:0 20px 52px rgba(47,125,99,.12);
+  padding:46px 34px 132px;border-color:rgba(76,155,153,.12);border-radius:30px;
+  background:#fff;box-shadow:0 20px 52px rgba(47,125,99,.12);position:relative;overflow:hidden;
 }
-
-.welcome-panel::before{
-  display:none;
-}
-
-.welcome-panel::after{
-  content:"";
-  position:absolute;
-  z-index:0;
-  left:0;
-  right:0;
-  bottom:0;
-  height:126px;
-  background:url("./assets/brand/welcome-landscape.svg") center bottom / 100% 100% no-repeat;
-  pointer-events:none;
-}
-
-.welcome-panel > *{
-  position:relative;
-  z-index:1;
-}
-
-.welcome-brand{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
-}
-
-.welcome-logo{
-  width:124px;
-  height:auto;
-  display:block;
-}
-
-.welcome-brand h1{
-  margin:10px 0 0;
-  font-size:clamp(2rem,8vw,2.55rem);
-  line-height:1.15;
-  font-weight:500;
-  letter-spacing:.005em;
-  background:linear-gradient(90deg,var(--ui-teal),var(--ui-lime));
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-}
-
-.welcome-tagline{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  margin:12px 0 0;
-  color:#7A8D89;
-  font-size:.86rem;
-  letter-spacing:.12em;
-}
-
-.welcome-tagline span{
-  width:34px;
-  height:1px;
-  background:linear-gradient(90deg,transparent,var(--ui-teal));
-}
-
-.welcome-tagline span:last-child{
-  background:linear-gradient(90deg,var(--ui-lime),transparent);
-}
-
-.welcome-introduction{
-  margin-top:36px;
-  text-align:center;
-}
-
-.welcome-introduction h2{
-  margin:0 0 20px;
-  color:#297B51;
-  font-size:clamp(1.45rem,6vw,1.85rem);
-  letter-spacing:.04em;
-}
-
-.welcome-introduction p{
-  margin:0 0 18px;
-  line-height:1.9;
-}
-
-.privacy-note{
-  display:grid;
-  grid-template-columns:34px 1fr;
-  align-items:center;
-  gap:12px;
-  margin-top:28px;
-  padding:15px 17px;
-  border-radius:16px;
-  background:linear-gradient(90deg,#EFF8E9,#F5FAF2);
-  color:#42584E;
-  font-size:.86rem;
-  line-height:1.7;
-}
-
-.privacy-note p{
-  margin:0;
-}
-
-.privacy-icon{
-  display:grid;
-  place-items:center;
-  width:32px;
-  height:36px;
-  color:#fff;
-  font-weight:800;
-  background:var(--ui-leaf);
-  clip-path:polygon(50% 0,88% 17%,88% 57%,50% 100%,12% 57%,12% 17%);
-}
-
-.welcome-button{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:14px;
-  width:min(100%,360px);
-  min-height:64px;
-  margin:32px auto 0;
-  border-radius:999px;
-  font-size:1.08rem;
-  background:linear-gradient(90deg,#4B9B7D,#72B68C);
-  box-shadow:0 12px 26px rgba(47,125,99,.22);
-}
-
-.welcome-button span:last-child{
-  font-size:1.8rem;
-  line-height:.7;
-  font-weight:300;
-}
-
-/* Choice screen */
-.option-step{
-  padding-top:30px;
-}
-
-.option-step .step-eyebrow{
-  margin:0 0 5px;
-  color:var(--brand);
-  text-align:center;
-  font-size:.82rem;
-  font-weight:800;
-  letter-spacing:.08em;
-}
-
-.option-step h2{
-  margin:0;
-  text-align:center;
-  font-size:clamp(1.35rem,5.6vw,1.72rem);
-}
-
-.option-guidance{
-  margin:10px 0 22px;
-  color:var(--muted);
-  text-align:center;
-  font-size:.92rem;
-}
-
-.option-list{
-  gap:11px;
-}
-
-.option-card{
-  position:relative;
-  display:grid;
-  grid-template-columns:36px 1fr;
-  column-gap:12px;
-  align-items:center;
-  min-height:76px;
-  padding:13px 16px 13px 14px;
-  border:1.5px solid transparent;
-  overflow:hidden;
-}
-
-.option-card::before{
-  content:attr(data-level);
-  display:grid;
-  place-items:center;
-  grid-row:1 / span 2;
-  width:32px;
-  height:32px;
-  border-radius:50%;
-  color:#fff;
-  font-weight:800;
-}
-
-.option-card strong,
-.option-card span{
-  grid-column:2;
-}
-
-.option-card strong{
-  font-size:1rem;
-  line-height:1.45;
-}
-
-.option-card span{
-  margin-top:2px;
-  font-size:.85rem;
-  line-height:1.5;
-}
-
-.option-card[data-level="1"]{
-  background:var(--choice-1-bg);
-  border-color:#CDE7D0;
-}
-.option-card[data-level="1"]::before{background:var(--choice-1-accent)}
-
-.option-card[data-level="2"]{
-  background:var(--choice-2-bg);
-  border-color:#F0DE9D;
-}
-.option-card[data-level="2"]::before{background:var(--choice-2-accent)}
-
-.option-card[data-level="3"]{
-  background:var(--choice-3-bg);
-  border-color:#F4C991;
-}
-.option-card[data-level="3"]::before{background:var(--choice-3-accent)}
-
-.option-card[data-level="4"]{
-  background:var(--choice-4-bg);
-  border-color:#F0B7AB;
-}
-.option-card[data-level="4"]::before{background:var(--choice-4-accent)}
-
-.option-card[data-level="5"]{
-  background:var(--choice-5-bg);
-  border-color:#EEA5AA;
-}
-.option-card[data-level="5"]::before{background:var(--choice-5-accent)}
-
-.option-card[aria-pressed="true"]{
-  border-color:#2F7D63;
-  box-shadow:0 0 0 3px rgba(47,125,99,.13),0 10px 22px rgba(47,125,99,.08);
-}
-
-.status-badge.level-1{background:var(--choice-1-bg)}
-.status-badge.level-2{background:var(--choice-2-bg)}
-.status-badge.level-3{background:var(--choice-3-bg)}
-.status-badge.level-4{background:var(--choice-4-bg)}
-.status-badge.level-5{background:var(--choice-5-bg)}
-
-.response-card.level-1{border-left-color:var(--choice-1-accent)}
-.response-card.level-2{border-left-color:var(--choice-2-accent)}
-.response-card.level-3{border-left-color:var(--choice-3-accent)}
-.response-card.level-4{background:var(--choice-4-bg);border-left-color:var(--choice-4-accent)}
-.response-card.level-5{background:var(--choice-5-bg);border-left-color:var(--choice-5-accent)}
-
+.welcome-panel::before{display:none}
+.welcome-panel::after{content:"";position:absolute;z-index:0;left:0;right:0;bottom:0;height:126px;background:url("./assets/brand/welcome-landscape.svg") center bottom/100% 100% no-repeat;pointer-events:none}
+.welcome-panel>*{position:relative;z-index:1}
+.welcome-brand{display:flex;flex-direction:column;align-items:center;text-align:center}
+.welcome-logo{width:148px;max-width:44vw;height:auto;display:block;margin-inline:auto;object-fit:contain;background:transparent}
+.welcome-brand h1{margin:10px 0 0;font-size:clamp(2rem,8vw,2.55rem);line-height:1.15;font-weight:500;letter-spacing:.005em;background:linear-gradient(90deg,var(--ui-teal),var(--ui-lime));-webkit-background-clip:text;background-clip:text;color:transparent}
+.welcome-tagline{display:flex;align-items:center;justify-content:center;gap:12px;margin:12px 0 0;color:#7A8D89;font-size:.86rem;letter-spacing:.12em}
+.welcome-tagline span{width:34px;height:1px;background:linear-gradient(90deg,transparent,var(--ui-teal))}
+.welcome-tagline span:last-child{background:linear-gradient(90deg,var(--ui-lime),transparent)}
+.welcome-introduction{margin-top:30px;text-align:center}
+.welcome-introduction h2{margin:0 0 14px;font-size:clamp(1.12rem,4.8vw,1.34rem);font-weight:700;letter-spacing:.08em;background:linear-gradient(90deg,var(--ui-teal),var(--ui-lime));-webkit-background-clip:text;background-clip:text;color:transparent}
+.welcome-introduction p{margin:0 0 14px;line-height:1.85}
+.privacy-note{position:relative;width:min(100%,480px);min-height:74px;margin:22px auto 0;padding:16px 52px;display:flex;align-items:center;justify-content:center;border-radius:16px;background:linear-gradient(90deg,#EFF8E9,#F5FAF2);color:#42584E;font-size:.9rem;line-height:1.65;text-align:center}
+.privacy-note p{margin:0;text-align:center}
+.privacy-icon{position:absolute;left:18px;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:32px;height:36px;color:#fff;font-weight:800;background:var(--ui-leaf);clip-path:polygon(50% 0,88% 17%,88% 57%,50% 100%,12% 57%,12% 17%)}
+.welcome-button{display:flex;align-items:center;justify-content:center;gap:14px;width:min(100%,360px);min-height:64px;margin:32px auto 0;border-radius:999px;font-size:1.08rem;background:linear-gradient(90deg,#4B9B7D,#72B68C);box-shadow:0 12px 26px rgba(47,125,99,.22)}
+.welcome-button span:last-child{font-size:1.8rem;line-height:.7;font-weight:300}
+.option-step{padding-top:30px}
+.option-step .step-eyebrow{margin:0 0 5px;color:var(--brand);text-align:center;font-size:.82rem;font-weight:800;letter-spacing:.08em}
+.option-step h2{margin:0;text-align:center;font-size:clamp(1.35rem,5.6vw,1.72rem)}
+.option-guidance{margin:10px 0 22px;color:var(--muted);text-align:center;font-size:.92rem}
+.option-list{gap:11px}
+.option-card{position:relative;display:grid;grid-template-columns:36px 1fr;column-gap:12px;align-items:center;min-height:76px;padding:13px 16px 13px 14px;border:1.5px solid transparent;overflow:hidden}
+.option-card::before{content:attr(data-level);display:grid;place-items:center;grid-row:1/span 2;width:32px;height:32px;border-radius:50%;color:#fff;font-weight:800}
+.option-card strong,.option-card span{grid-column:2}.option-card strong{font-size:1rem;line-height:1.45}.option-card span{margin-top:2px;font-size:.85rem;line-height:1.5}
+.option-card[data-level="1"]{background:var(--choice-1-bg);border-color:#CDE7D0}.option-card[data-level="1"]::before{background:var(--choice-1-accent)}
+.option-card[data-level="2"]{background:var(--choice-2-bg);border-color:#F0DE9D}.option-card[data-level="2"]::before{background:var(--choice-2-accent)}
+.option-card[data-level="3"]{background:var(--choice-3-bg);border-color:#F4C991}.option-card[data-level="3"]::before{background:var(--choice-3-accent)}
+.option-card[data-level="4"]{background:var(--choice-4-bg);border-color:#F0B7AB}.option-card[data-level="4"]::before{background:var(--choice-4-accent)}
+.option-card[data-level="5"]{background:var(--choice-5-bg);border-color:#EEA5AA}.option-card[data-level="5"]::before{background:var(--choice-5-accent)}
+.option-card[aria-pressed="true"]{border-color:#2F7D63;box-shadow:0 0 0 3px rgba(47,125,99,.13),0 10px 22px rgba(47,125,99,.08)}
+.status-badge.level-1{background:var(--choice-1-bg)}.status-badge.level-2{background:var(--choice-2-bg)}.status-badge.level-3{background:var(--choice-3-bg)}.status-badge.level-4{background:var(--choice-4-bg)}.status-badge.level-5{background:var(--choice-5-bg)}
+.response-card.level-1{border-left-color:var(--choice-1-accent)}.response-card.level-2{border-left-color:var(--choice-2-accent)}.response-card.level-3{border-left-color:var(--choice-3-accent)}.response-card.level-4{background:var(--choice-4-bg);border-left-color:var(--choice-4-accent)}.response-card.level-5{background:var(--choice-5-bg);border-left-color:var(--choice-5-accent)}
 @media(max-width:420px){
-  .welcome-panel{
-    min-height:calc(100dvh - max(36px,env(safe-area-inset-top)) - max(44px,env(safe-area-inset-bottom)));
-    padding:38px 22px 112px;
-    border-radius:26px;
-  }
-
-  .welcome-logo{
-    width:106px;
-  }
-
-  .welcome-brand h1{
-    font-size:2rem;
-  }
-
-  .welcome-tagline{
-    gap:8px;
-    font-size:.75rem;
-  }
-
-  .welcome-tagline span{
-    width:24px;
-  }
-
-  .welcome-introduction{
-    margin-top:28px;
-  }
-
-  .welcome-introduction p br,
-  .privacy-note p br{
-    display:none;
-  }
-
-  .privacy-note{
-    grid-template-columns:30px 1fr;
-    padding:13px 14px;
-  }
-
-  .privacy-icon{
-    width:28px;
-    height:32px;
-  }
-
-  .welcome-button{
-    min-height:60px;
-    margin-top:26px;
-  }
-
-  .option-step{
-    padding:24px 18px;
-  }
-
-  .option-card{
-    grid-template-columns:32px 1fr;
-    column-gap:10px;
-    padding:12px 13px;
-  }
-
-  .option-card::before{
-    width:29px;
-    height:29px;
-    font-size:.9rem;
-  }
-}
-
-
-/* =========================================================
-   Version 2.1.2 Logo stable patch
-========================================================= */
-
-.welcome-logo{
-  width:150px;
-  max-width:46vw;
-  height:auto;
-  display:block;
-  margin-inline:auto;
-  object-fit:contain;
-  image-rendering:auto;
-}
-
-.welcome-brand h1{
-  margin:10px 0 0;
-  font-size:clamp(2rem,8vw,2.55rem);
-  line-height:1.15;
-  font-weight:500;
-  letter-spacing:.005em;
-  background:linear-gradient(90deg,var(--ui-teal),var(--ui-lime));
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-}
-
-.welcome-introduction{
-  margin-top:30px;
-  text-align:center;
-}
-
-.welcome-introduction h2{
-  margin:0 0 14px;
-  font-size:clamp(1.12rem,4.8vw,1.34rem);
-  font-weight:700;
-  letter-spacing:.08em;
-  background:linear-gradient(90deg,var(--ui-teal),var(--ui-lime));
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-}
-
-.welcome-introduction p{
-  margin:0 0 14px;
-  line-height:1.85;
-}
-
-.privacy-note{
-  margin-top:22px;
-}
-
-@media(max-width:420px){
-  .welcome-logo{
-    width:132px;
-    max-width:44vw;
-  }
-
-  .welcome-introduction{
-    margin-top:24px;
-  }
-
-  .welcome-introduction h2{
-    font-size:1.06rem;
-    margin-bottom:12px;
-  }
-}
-
-
-/* =========================================================
-   Version 2.1.3 No-heart welcome logo
-========================================================= */
-.welcome-logo{
-  width: 154px;
-  max-width: 46vw;
-  height: auto;
-  display: block;
-  margin-inline: auto;
-  object-fit: contain;
-  background: transparent;
-}
-
-@media (max-width: 420px){
-  .welcome-logo{
-    width: 132px;
-    max-width: 44vw;
-  }
+  .welcome-panel{min-height:calc(100dvh - max(36px,env(safe-area-inset-top)) - max(44px,env(safe-area-inset-bottom)));padding:36px 20px 112px;border-radius:26px}
+  .welcome-logo{width:128px;max-width:43vw}.welcome-brand h1{font-size:2rem}.welcome-tagline{gap:8px;font-size:.75rem}.welcome-tagline span{width:24px}
+  .welcome-introduction{margin-top:24px}.welcome-introduction p br{display:none}.welcome-introduction h2{font-size:1.06rem;margin-bottom:12px}
+  .privacy-note{min-height:68px;padding:13px 42px 13px 48px;font-size:.83rem}.privacy-icon{left:14px;width:28px;height:32px}
+  .welcome-button{min-height:60px;margin-top:26px}.option-step{padding:24px 18px}.option-card{grid-template-columns:32px 1fr;column-gap:10px;padding:12px 13px}.option-card::before{width:29px;height:29px;font-size:.9rem}
 }

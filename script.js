@@ -1,10 +1,4 @@
-(()=>{"use strict";/* Harmony: creators-only project name; not shown in the public UI. */const K="photoConsentAppV1",P="1234",O=[
-{level:1,title:"① 写真OK",description:"撮影しても大丈夫です。"},
-{level:2,title:"② 顔が写っていなければOK",description:"後ろ姿や手元など、顔が写らない写真であれば大丈夫です。"},
-{level:3,title:"③ みんなと写っていればOK",description:"みんなと一緒に写る写真であれば大丈夫です。"},
-{level:4,title:"④ ボケていたり、身体の一部分ならOK",description:"人物が特定されにくい写真であれば大丈夫です。"},
-{level:5,title:"⑤ 今回は撮影を見送り",description:"今回は写らないように配慮をお願いします。"}
-],S={name:"",level:null,taps:0,timer:null,edit:null},$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];function D(){let id=crypto.randomUUID();return{activeEventId:id,events:[{id,name:"現在のイベント",createdAt:new Date().toISOString(),responses:[]}]}}function L(){try{let r=localStorage.getItem(K);if(!r){let d=D();W(d);return d}let d=JSON.parse(r);if(!d.events?.length){d=D();W(d)}return d}catch{let d=D();W(d);return d}}function W(d){localStorage.setItem(K,JSON.stringify(d))}function A(d){return d.events.find(e=>e.id===d.activeEventId)||d.events[0]}function replayCardFade(container){
+(()=>{"use strict";/* Harmony: creators-only project name; not shown in the public UI. */const K="photoConsentAppV1",P="1234",O=[{level:1,title:"① 写真OK",description:"撮影しても大丈夫です。"},{level:2,title:"② 顔が写っていなければOK",description:"後ろ姿や手元など、顔が写らない写真であれば大丈夫です。"},{level:3,title:"③ みんなと写っていればOK",description:"みんなと一緒に写る写真であれば大丈夫です。"},{level:4,title:"④ ボケていたり、身体の一部分ならOK",description:"人物が特定されにくい写真であれば大丈夫です。"},{level:5,title:"⑤ 今回は撮影を見送り",description:"今回は写らないように配慮をお願いします。"}],S={name:"",level:null,taps:0,timer:null,edit:null},$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];function D(){let id=crypto.randomUUID();return{activeEventId:id,events:[{id,name:"現在のイベント",createdAt:new Date().toISOString(),responses:[]}]}}function L(){try{let r=localStorage.getItem(K);if(!r){let d=D();W(d);return d}let d=JSON.parse(r);if(!d.events?.length){d=D();W(d)}return d}catch{let d=D();W(d);return d}}function W(d){localStorage.setItem(K,JSON.stringify(d))}function A(d){return d.events.find(e=>e.id===d.activeEventId)||d.events[0]}function replayCardFade(container){
   const card=container?.classList?.contains('stable-motion-card')
     ? container
     : container?.querySelector?.('.stable-motion-card');
