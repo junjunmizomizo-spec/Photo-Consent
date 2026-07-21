@@ -1,16 +1,16 @@
+
+## Version 2.1.2 “Logo Stable”
+
+- Welcome画面のロゴを、承認済みの見た目をもとにしたPNG表示へ変更
+- カメラアイコンの崩れを防止
+- 「写真撮影の前に」を控えめなグラデーション見出しへ調整
+- Welcome画面の重複文言を整理
+
 <p align="center">
   <img src="./assets/brand/logo-readme.png" alt="Photo Consent" width="640">
 </p>
 
 # Photo Consent
-
-
-## Version 2.1.1 “Welcome Polish”
-
-- Welcomeロゴを、崩れにくいシンプルなカメラ＋葉っぱロゴへ調整
-- 「写真撮影の前に」の見出しをやわらかいグラデーション表現へ変更
-- Welcome画面の重複文言を整理
-
 
 
 ## Version 2.1 “UI Refresh” — Sprint 2.1-1

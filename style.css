@@ -1040,19 +1040,34 @@ dialog::backdrop{background:rgba(19,35,27,.42)}
 
 
 /* =========================================================
-   Version 2.1.1 Welcome polish
+   Version 2.1.2 Logo stable patch
 ========================================================= */
 
 .welcome-logo{
-  width:136px;
-  max-width:44vw;
+  width:150px;
+  max-width:46vw;
   height:auto;
   display:block;
   margin-inline:auto;
+  object-fit:contain;
+  image-rendering:auto;
+}
+
+.welcome-brand h1{
+  margin:10px 0 0;
+  font-size:clamp(2rem,8vw,2.55rem);
+  line-height:1.15;
+  font-weight:500;
+  letter-spacing:.005em;
+  background:linear-gradient(90deg,var(--ui-teal),var(--ui-lime));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
 }
 
 .welcome-introduction{
   margin-top:30px;
+  text-align:center;
 }
 
 .welcome-introduction h2{
@@ -1077,8 +1092,8 @@ dialog::backdrop{background:rgba(19,35,27,.42)}
 
 @media(max-width:420px){
   .welcome-logo{
-    width:118px;
-    max-width:42vw;
+    width:132px;
+    max-width:44vw;
   }
 
   .welcome-introduction{
